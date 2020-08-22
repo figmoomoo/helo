@@ -1,5 +1,4 @@
 import axios from 'axios';
-import {connect} from 'react-redux'
 
 const initialState = {
     user: {},
@@ -18,6 +17,7 @@ export function loginUser(user){
 }
 
 export function logoutUser(){
+    console.log("hit")
     return {
         type: LOGOUT_USER,
         payload: initialState
@@ -25,7 +25,7 @@ export function logoutUser(){
 }
 
 export function getUser(){
-    const user = axios.get('/auth/user')
+    const user = axios.get('/api/user')
     return {
         type: GET_USER,
         payload: user

@@ -1,1 +1,1 @@
-ALTER TABLE users ALTER COLUMN password TEXT;
+ALTER TABLE users ALTER COLUMN password type TEXT;

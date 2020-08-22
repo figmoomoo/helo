@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import {connect} from 'react-redux'
+import {loginUser} from '../../ducks/reducer'
 
 class Auth extends Component{
     constructor(props){
@@ -23,31 +25,40 @@ class Auth extends Component{
     }
 
     handleLogin = () => {
-        axios.post('/login', {
+        axios.post('/api/login/', {
           username: this.state.username,
           password: this.state.password
         }).then(res => {
-          this.handleRedirect()
+            this.props.loginUser(res.data)
+            this.handleRedirect()
         }).catch(err => { console.log('Unable to login') })
     }
 
     handleRegister = async () => {
-        let result = await axios.post('/register', {
+        let result = await axios.post('/api/register/', {
           username: this.state.username,
           password: this.state.password
         })
         console.log(result)
-        if (result) {
-          axios.post('/login', {
-            username: this.state.username,
-            password: this.state.password
-          }).then(res => {
-            this.handleRedirect();
-          }).catch(err => console.log('could not login after registering'))
-        }
+        this.props.loginUser(result.data)
+        this.handleRedirect()
+        // if (result) {
+        //   axios.post('/api/login/', {
+        //     username: this.state.username,
+        //     password: this.state.password
+        //   }).then(res => {
+        //     this.handleRedirect();
+        //   }).catch(err => console.log('could not login after registering'))
+        // }
+    }
+
+    handleRedirect = () => {
+        console.log(this.props)
+        this.props.history.push('/dashboard');
     }
 
     render() {
+        console.log(this.props)
         return(
             <div className="Auth">
                 <div className="Login-Box">
@@ -70,4 +81,6 @@ class Auth extends Component{
     }
 }
 
-export default Auth
+const mapStateToProps = state => state;
+
+export default connect(mapStateToProps, {loginUser}) (Auth)

@@ -4,6 +4,7 @@ module.exports = {
     register: async(req, res) => {
         const db = req.app.get('db')
         const {username, password} = req.body
+        console.log(req.body)
         const results = await db.get_user(username)
         if(results[0]){
             return res.status(400).send("Username taken")
@@ -14,7 +15,7 @@ module.exports = {
         req.session.user = user
         return res.status(200).send(req.session.user)
     },
-    login: (req, res) => {
+    login: async(req, res) => {
         const db = req.app.get('db')
         const {username, password} = req.body
         const results = await db.get_user(username)

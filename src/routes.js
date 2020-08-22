@@ -8,7 +8,7 @@ import Post from './components/Post/Post'
 function Routes(props) {
     return (
         <Switch>
-            <Route path='/' component={Auth} />
+            <Route exact path='/' component={Auth} />
             <Route path='/dashboard' component={Dashboard} />
             <Route path='/post/:id' component={Post} />
             <Route path='/new' component={Form} />

@@ -1,14 +1,30 @@
 import React, { Component } from 'react'
-import { Link, withRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import {connect} from 'react-redux'
+import {logoutUser, getUser} from '../../ducks/reducer'
+import axios from 'axios'
 
 class Nav extends Component{
-    render(){
+    componentDidMount(){
+        this.props.getUser();
+    }
+
+    logout = () => {
+        axios.get('/api/logout').then( res => {
+            this.props.logoutUser();
+            // this.props.history.push('/');
+        }).catch(err => console.log(err))
+    }
+
+    render(props){
         return<div>
             <button >Home</button>
             <button>New Post</button>
-            <button>Logout</button>
+            <button onClick={this.logout}><Link to="/">Logout</Link></button>
         </div>
     }
 }
 
-export default Nav;
+const mapStateToProps = state => state;
+
+export default connect(mapStateToProps, {logoutUser, getUser})(Nav);
